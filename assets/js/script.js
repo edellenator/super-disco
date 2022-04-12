@@ -4,17 +4,19 @@ const currentTime = document.getElementById("currentDay");
 const hourText = document.querySelectorAll(".hourtext");
 const selectTextBox = document.querySelector('.text');
 
-var textArray = [
-];
+var textArray = [];
 
+// header clock to set current time
 var headerClock = function () {
     var now = moment().format('MMMM Do YYYY, h:mm:ss a');
     currentTime.textContent = now
 }
 
+// refresh current time to continually update time each second
 setInterval(headerClock, 1000);
 headerClock();
 
+// dynamically generate hour text on left column of scheduler
 var setHourText = function () {
     for (var i = 0; i < hourText.length; i++) {
         var setHour = 9 + parseInt([i]);
@@ -30,7 +32,7 @@ var setHourText = function () {
 setHourText();
 
 
-// set text block color based on time in 
+// set text block color based on time left hand column
 
 var textBlockColor = function () {
      for (var i = 0; i < hourText.length; i++){
@@ -57,6 +59,7 @@ var textBlockColor = function () {
 //check each minute if the time block color should be updated
 setInterval(textBlockColor(),1000 * 60);
 
+// make text content of html element editable
 var textBlockEdit = function (index) {
     return function() {
         console.log('you clicked on text area' + index);
@@ -67,7 +70,9 @@ var textBlockEdit = function (index) {
 for (var i = 0; i < textBlockEl.length; i++) {
     textBlockEl[i].addEventListener('click', textBlockEdit(i))
 };
-      
+
+
+// remove editable attribute from html element and save text content push it in to an array. Save array to local storage
 var textBlockSave = function (index) {
     return function() {
         console.log('you clicked button #' + index)
@@ -108,4 +113,5 @@ for (var i = 0; i < saveBtnEl.length; i++) {
     saveBtnEl[i].addEventListener('click', textBlockSave(i))
 };
 
+// put saved local storage info in to text content of scheduler
 window.addEventListener('load', getStorage())
